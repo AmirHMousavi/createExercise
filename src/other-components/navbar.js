@@ -3,16 +3,6 @@ import {Link} from 'react-router';
 
 class componentName extends Component {
     render() {
-        const gustLinks = (
-            <ul className="nav navbar-nav navbar-right">
-                <li>
-                    <Link to="/signup">Registrera</Link>
-                </li>
-                <li>
-                    <Link to="/login">Logga In</Link>
-                </li>
-            </ul>
-        );
         return (
             <nav className="navbar navbar-default">
                 <div className="container-fluid">
@@ -26,7 +16,13 @@ class componentName extends Component {
                             <Link to="/overview">Exercises Overview</Link>
                         </li>
                     </ul>
-                    <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">{gustLinks}</div>
+                    <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul className="nav navbar-nav navbar-right">
+                            <li>
+                                <Link to="/signup">Registrera/Logga In</Link>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </nav>
         );

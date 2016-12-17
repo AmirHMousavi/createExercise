@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import classnames from 'classnames';
-import {editeCategory, editeWordIndex, editSentence} from '../actions/edit-exercise-solution';
+import {editCategory, editWordIndex, editSentence} from '../actions/edit-exercise-solution';
 
 class Context extends Component {
     constructor(props) {
@@ -14,16 +14,10 @@ class Context extends Component {
             sentenceArray: [],
             inputClassName: ''
         }
-        this.editeWordIndex = this
-            .editeWordIndex
-            .bind(this);
-        this.editeCategory = this
-            .editeCategory
-            .bind(this);
-        this.editeSentence = this.editeSentence.bind(this);
-        this.onChange = this
-            .onChange
-            .bind(this);
+        this.editWordIndex = this.editWordIndex.bind(this);
+        this.editCategory = this.editCategory.bind(this);
+        this.editSentence = this.editSentence.bind(this);
+        this.onChange = this.onChange.bind(this);
         this.getReadyToEdit=this.getReadyToEdit.bind(this);
     }
     onChange(e) {
@@ -31,35 +25,36 @@ class Context extends Component {
             [e.target.name]: e.target.value
         });
     }
-    editeWordIndex(e) {
-        this
-            .props
-            .editeWordIndex(parseInt(e.target.value, [10]));
+    editWordIndex(e) {
+        this.props.editWordIndex(parseInt(e.target.value, [10]));
+    }
+    editCategory(e) {
+        this.props.editCategory(e.target.value, e.target.id);
     }
     getReadyToEdit(e){
         e.preventDefault();
         this.setState({inputText:this.state.sentenceArray.join(" ")})
         this.setState({sentenceArray:[]})
-        this.props.editeWordIndex(null);
-        this.props.editeCategory(null, null);
+        this.props.editWordIndex(null);
+        this.props.editCategory(null, null);
         this.props.editSentence(null)
         
     }
-    editeSentence(e) {
+    editSentence(e) {
         let errors = {};
         if (this.state.inputText.length < 1) {
-            errors.sentence = 'ingen mening tillgänglig';
+            errors.sentence = 'OBS! ingen mening tillgänglig';
             this.setState({errors})
-        }else
-        {this.props.editSentence(this.state.inputText);
-        this.setState({errors:{}})
-        this.setState({inputText:''})}
+        }else if(this.state.sentenceArray.length>0){
+            errors.sentence = 'OBS! det är något lägre, tryck pennan';
+            this.setState({errors})
+        }else{
+            this.props.editSentence(this.state.inputText);
+            this.setState({errors:{}})
+            this.setState({inputText:''})
+        }
     }
-    editeCategory(e) {
-        this
-            .props
-            .editeCategory(e.target.value, e.target.id);
-    }
+    
     renderSentence(sentenceArray) {
         var counter = -1;
         return (sentenceArray.map((word) => {
@@ -71,11 +66,8 @@ class Context extends Component {
                     className="btn btn-default"
                     value={counter}
                     style={this.state.groupParts.selectedWordIndex === counter
-                    ? {
-                        color: this.state.category.color
-                    }
-                    : {}}
-                    onClick={this.editeWordIndex}>{word}</button>
+                    ? {color: this.state.category.color}: {}}
+                    onClick={this.editWordIndex}>{word}</button>
             );
         }));
     }
@@ -89,13 +81,10 @@ class Context extends Component {
                         key={_key}
                         type="button"
                         className="btn btn-default col-xs-2"
-                        style={{
-                        color: category.color,
-                        fontWeight: 'bold'
-                    }}
+                        style={{color: category.color,fontWeight: 'bold'}}
                         value={category.value}
                         id={category.color}
-                        onClick={this.editeCategory}>{category.value}</button>
+                        onClick={this.editCategory}>{category.value}</button>
                 );
             });
     }
@@ -104,11 +93,7 @@ class Context extends Component {
         if (this.props.Exercise !== nextProps.Exercise) {
             if (nextProps.Exercise.sentence) {
                 this.setState({
-                    sentenceArray: nextProps
-                        .Exercise
-                        .sentence
-                        .trim()
-                        .split(" ")
+                    sentenceArray: nextProps.Exercise.sentence.trim().split(" ")
                 });
             }
         }
@@ -118,7 +103,7 @@ class Context extends Component {
         }
     }
     render() {
-        let {sentenceArray, category, groupParts, errors} = this.state
+        let {sentenceArray, errors} = this.state
         return (
             <div>
                 <h3>
@@ -137,9 +122,10 @@ class Context extends Component {
                         type="text"
                         value={this.state.inputText}
                         onChange={this.onChange}
-                        onKeyPress={this.onKeyPress}/>{errors.sentence && <span className="help-block">{errors.sentence}</span>}
+                        onKeyPress={this.onKeyPress}/>
+                        {errors.sentence && <span className="help-block">{errors.sentence}</span>}
                         <span className="input-group-btn">
-                            <button type="button" className="btn btn-info" onClick={this.editeSentence}>
+                            <button type="button" className="btn btn-info" onClick={this.editSentence}>
                                 <span className="glyphicon glyphicon-arrow-down"></span>
                             </button>
                         </span>
@@ -164,8 +150,8 @@ function mapStateToProps(state) {
     return {Exercise: state.Exercise, Solution: state.Solution, AllCategories: state.AllCategories}
 }
 Context.propTypes = {
-    editeCategory: PropTypes.func.isRequired,
-    editeWordIndex: PropTypes.func.isRequired,
+    editCategory: PropTypes.func.isRequired,
+    editWordIndex: PropTypes.func.isRequired,
     editSentence: PropTypes.func.isRequired
 }
-export default connect(mapStateToProps, {editeCategory, editeWordIndex,editSentence})(Context);
+export default connect(mapStateToProps, {editCategory, editWordIndex,editSentence})(Context);

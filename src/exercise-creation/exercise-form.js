@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import Context from './exercise-context';
-import {putEditedExercise,putEditedSolution} from '../actions/fetch-one-exercise';
+import {putEditedExercise,putEditedSolution,postNewExercise} from '../actions/one-exercise';
 
 class ExerciseForm extends Component {
     constructor(props) {
@@ -11,9 +11,9 @@ class ExerciseForm extends Component {
             valid: true
         }
         this.updateAndBack=this.updateAndBack.bind(this);
+        this.saveNewExercise=this.saveNewExercise.bind(this);
     }
     componentWillReceiveProps(nextProps) {
-        console.log('new props in form ->', nextProps.Exercise.sentece, nextProps.Solution.category.value, nextProps.Solution.groupParts[0].selectedWordIndex)
         if (nextProps.Solution.category.value === null || nextProps.Solution.groupParts[0].selectedWordIndex === null) {
             this.setState({valid: false})
         } else {
@@ -21,17 +21,18 @@ class ExerciseForm extends Component {
         }
     }
 
+    saveNewExercise(e){
+        this.props.postNewExercise(this.props.Exercise,this.props.Solution);
+    }
+
     updateAndBack(e){
-        console.log(this.props)
         this.props.putEditedExercise(this.props.Exercise);
         this.props.putEditedSolution(this.props.Solution);
         this.context.router.push("/overview");
     }
     render() {
-
         let {valid} = this.state
-        let {editeMode} = this.props;
-        console.log(valid)
+        let {editMode} = this.props;
         const spara = (
             <button disabled={!valid} className="btn btn-success" onClick={this.saveNewExercise}>Spara & Ny Ordklasser</button>
         )
@@ -45,7 +46,7 @@ class ExerciseForm extends Component {
                 <Context/>
                 <hr/>
                 <div className="form-group">
-                    {editeMode
+                    {editMode
                         ? uppdatera
                         : spara}
                     <Link to="/overview">
@@ -53,6 +54,7 @@ class ExerciseForm extends Component {
                     </Link>
                 </div>
             </div>
+            
         );
     }
 }
@@ -62,9 +64,10 @@ function mapStateToProps(state) {
 }
 ExerciseForm.PropTypes={
     putEditedExercise:PropTypes.func.isRequired,
-    putEditedSolution:PropTypes.func.isRequired
+    putEditedSolution:PropTypes.func.isRequired,
+    postNewExercise:PropTypes.func.isRequired,
 }
 ExerciseForm.contextTypes={
     router: PropTypes.object
 }
-export default connect(mapStateToProps,{putEditedExercise,putEditedSolution})(ExerciseForm);
+export default connect(mapStateToProps,{putEditedExercise,putEditedSolution,postNewExercise})(ExerciseForm);

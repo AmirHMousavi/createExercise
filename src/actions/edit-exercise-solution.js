@@ -2,11 +2,11 @@ import {EDIT_EXERCISE, EDIT_SOLUTION_INDEX, EDIT_SOLUTION_CATEGORY} from './type
 
 export function editSentence(sentence) {
     return dispatch => {
-        dispatch({type:EDIT_EXERCISE,payload:sentence})
+        dispatch({type: EDIT_EXERCISE, payload: sentence})
     }
 }
 
-export function editeCategory(value, color) {
+export function editCategory(value, color) {
     return dispatch => {
         dispatch({
             type: EDIT_SOLUTION_CATEGORY,
@@ -18,7 +18,7 @@ export function editeCategory(value, color) {
     }
 }
 
-export function editeWordIndex(index) {
+export function editWordIndex(index) {
     return dispatch => {
         dispatch({type: EDIT_SOLUTION_INDEX, payload: index})
     }

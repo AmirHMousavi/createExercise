@@ -1,14 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
-import {fetchAllExercises} from '../actions/fetch-all-exercises';
+import {fetchAllExercises} from '../actions/all-exercises';
+import {deleteOneExercise} from '../actions/one-exercise';
 
 class OverViewList extends Component {
     componentDidMount() {
-        this
-            .props
-            .fetchAllExercises();
+        this.props.fetchAllExercises();
     }
+
     checkExeType(type) {
         switch (type) {
             case 'PART_OF_SPEECH':
@@ -19,9 +19,7 @@ class OverViewList extends Component {
     }
 
     onDeleteButton = (key) => {
-        this
-            .props
-            .deleteOneExercise(key);
+        this.props.deleteOneExercise(key);
     }
     sliceTheSentence(sentence, index) {
         var splitedSentece = sentence.split(" ");
@@ -35,8 +33,7 @@ class OverViewList extends Component {
         ];
     }
     renderExercises() {
-        return Object
-            .keys(this.props.AllExercises)
+        return Object.keys(this.props.AllExercises)
             .map(_key => {
                 let exercise = this.props.AllExercises[_key];
                 let boldWordIndex = exercise.solutionGroups[0].groupParts[0].selectedWordIndex;
@@ -65,9 +62,7 @@ class OverViewList extends Component {
                             <button
                                 type="button"
                                 className="btn btn-danger"
-                                onClick={this
-                                .onDeleteButton
-                                .bind(this, _key)}>
+                                onClick={this.onDeleteButton.bind(this, _key)}>
                                 <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
                             </button>
                         </td>
@@ -105,7 +100,8 @@ function mapStateToProps(state) {
     return {AllExercises: state.AllExercises}
 }
 OverViewList.propTypes = {
-    fetchAllExercises: PropTypes.func.isRequired
+    fetchAllExercises: PropTypes.func.isRequired,
+    deleteOneExercise: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps, {fetchAllExercises})(OverViewList);
+export default connect(mapStateToProps, {fetchAllExercises,deleteOneExercise})(OverViewList);

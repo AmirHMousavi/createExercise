@@ -9,7 +9,6 @@ let LIGHT_PINK = 'rgb(192,128,255)';
 let GRAY = 'rgb(109,109,109)';
 let PINK = 'rgb(252,0,255)';
 
-
 export const PARTS_OF_SPEECH_CATEGORY_LIST = [
   {value:'substantiv', color:RED},
   {value:'verb', color:ORANGE},

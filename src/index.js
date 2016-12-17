@@ -11,6 +11,7 @@ import ExercisePage from './exercise-creation/exercise-page';
 import Greeting from './other-components/greetings';
 import rootReducer from './root-reducer';
 import OverviewPage from './exercises-overview/overview-page';
+import SignUpForm from './other-components/signup-form';
 
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
@@ -22,6 +23,7 @@ ReactDOM.render(
       <IndexRoute component={Greeting}/>
       <Route path="uppgift/:id" component={ExercisePage}/>
       <Route path="overview" component={OverviewPage}/>
+      <Route path="signup" component={SignUpForm}/>
     </Route>
   </Router>
 </Provider>, document.getElementById('root'));

@@ -8,12 +8,13 @@ export function createEmptyExercise(exeType) {
                 dispatch(emptyPartOfSpeechExercise());
                 dispatch(emptyPartOfSpeechSolution());
             }
-        default: return  'no such type of exercise';
+        default:
+            return 'no such type of exercise';
     }
 }
 
-export function emptyPartOfSpeechExercise(){
-        let exercise = {
+export function emptyPartOfSpeechExercise() {
+    let exercise = {
         id: 0,
         question: 'Bestäm det markerade ord.',
         sentence: null,
@@ -24,8 +25,8 @@ export function emptyPartOfSpeechExercise(){
     }
     return {type: SET_EXERCISE, payload: exercise}
 }
-export function emptyPartOfSpeechSolution(){
-        let solution = {
+export function emptyPartOfSpeechSolution() {
+    let solution = {
         id: 0,
         category: {
             id: 0,
