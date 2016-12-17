@@ -1,0 +1,1 @@
+export const PART_OF_SPEECH='PART_OF_SPEECH';
