@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {SET_EXERCISE, SET_SOLUTION, FETCH_ALL_EXERCISES,ADD_FLASH_MESSAGE,DELETE_FLASH_MESSAGE} from './types';
+import {SET_EXERCISE, SET_SOLUTION, FETCH_ALL_EXERCISES} from './types';
 
 export function fetchOneExercise(id) {
     return dispatch => {
