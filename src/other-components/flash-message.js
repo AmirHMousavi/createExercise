@@ -1,34 +1,36 @@
 import React, {Component,PropTypes} from 'react';
+import {connect} from 'react-redux';
+import _ from 'lodash';
 import classnames from 'classnames';
+import {addFlashMessage,deleteFlashMessage} from '../actions/flash-messages';
 
-class FlashMessage extends Component {
-    constructor(props) {
-        super(props);
-        this.onClick = this.onClick.bind(this);
-    }
-    onClick() {
-        this.props.deleteFlashMessage(this.props.message.id);
-    }
+
+class FlashMessage extends Component {   
     render() {
-        const {type, text} = this.props.message;
+        let{FlashMessage}=this.props;
+        if(!_.isEmpty(FlashMessage)){
+            setTimeout(()=>this.props.deleteFlashMessage(),3000);
+        }
+        const {type, text} = this.props.FlashMessage;
         return (
             <div
                 className={classnames('alert', {
-                'alert-success': type === 'sucess',
+                'alert-success': type === 'success',
                 'alert-danger': type === 'error'
             })}>
-                <button onClick={this.onClick} className="close">
-                    <span>&times;</span>
-                </button>
                 {text}
             </div>
         );
     }
 }
 
-FlashMessage.propTypes = {
-    message: PropTypes.object.isRequired,
-    deleteFlashMessage: PropTypes.func.isRequired
+function mapStateToProps(state){
+    return{FlashMessage:state.FlashMessage}
 }
 
-export default FlashMessage;
+FlashMessage.propTypes = {
+    deleteFlashMessage: PropTypes.func.isRequired,
+    addFlashMessage: PropTypes.func.isRequired
+}
+
+export default connect(mapStateToProps,{addFlashMessage,deleteFlashMessage})(FlashMessage);

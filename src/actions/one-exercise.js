@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {SET_EXERCISE, SET_SOLUTION, FETCH_ALL_EXERCISES} from './types';
+import {addFlashMessage} from './flash-messages';
+import {SET_EXERCISE, SET_SOLUTION} from './types';
 
 export function fetchOneExercise(id) {
     return dispatch => {
@@ -25,16 +26,19 @@ export function putEditedExercise(data) {
         axios
             .put(`/exercises/${data.id}`, data)
             .then((res, err) => {
-                dispatch({type: FETCH_ALL_EXERCISES});
             })
     }
 }
 export function putEditedSolution(data) {
     return dispatch => {
         axios.put(`/solution-groups/${data.id}`, data).then(
-            (res, err) => {
-                dispatch({type: FETCH_ALL_EXERCISES});
-            })
+            res => {
+                dispatch(addFlashMessage({type:'success', text:'övning uppdaterats'}));
+            }).catch(
+                err =>{
+                    dispatch(addFlashMessage({type:'alert',text:'OBS! något fel'}));
+                }
+            )
     }
 }
 
@@ -49,8 +53,13 @@ export function postNewExercise(exerciseData, solutionData) {
 export function postNewSolution(solutionData,_id) {
     return dispatch => {
         axios.post(`/solution-groups/${_id}`, solutionData).then(
-            (res, err) => {
-            })
+            res => {
+                dispatch(addFlashMessage({type:'success', text:'övning skapade'}));
+            }).catch(
+                err=>{
+                    dispatch(addFlashMessage({type:'alert',text:'OBS! något fel'}));
+                }
+            )
     }
 }
 

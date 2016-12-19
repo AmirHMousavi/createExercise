@@ -28,7 +28,7 @@ class ExerciseForm extends Component {
     updateAndBack(e){
         this.props.putEditedExercise(this.props.Exercise);
         this.props.putEditedSolution(this.props.Solution);
-        this.context.router.push("/overview");
+        setTimeout(()=>this.context.router.push("/overview"),500);
     }
     render() {
         let {valid} = this.state
