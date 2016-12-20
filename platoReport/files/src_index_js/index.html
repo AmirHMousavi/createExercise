@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">77.33</p>
+      <p class="stat">77.20</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">29</p>
+      <p class="stat">31</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">5.34</p>
+      <p class="stat">5.29</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.20</p>
+      <p class="stat">0.21</p>
     </div>
   </div>
 </div>
@@ -103,6 +103,7 @@ import Greeting from &#039;./other-components/greetings&#039;;
 import rootReducer from &#039;./root-reducer&#039;;
 import OverviewPage from &#039;./exercises-overview/overview-page&#039;;
 import SignUpForm from &#039;./other-components/signup-form&#039;;
+import ExerciseSolving from &#039;./exercise-solving/solving-page&#039;;
 
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
@@ -115,6 +116,7 @@ ReactDOM.render(
       &lt;Route path=&quot;uppgift/:id&quot; component={ExercisePage}/&gt;
       &lt;Route path=&quot;overview&quot; component={OverviewPage}/&gt;
       &lt;Route path=&quot;signup&quot; component={SignUpForm}/&gt;
+      &lt;Route path=&quot;solving&quot; component={ExerciseSolving}/&gt;
     &lt;/Route&gt;
   &lt;/Router&gt;
 &lt;/Provider&gt;, document.getElementById(&#039;root&#039;));</textarea>
